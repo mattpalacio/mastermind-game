@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+
+import styled from 'styled-components';
+
+import GameContextProvider from './providers/gameProvider';
+
+import Header from './components/Header';
+import Game from './components/Game';
+import Rules from './components/Rules';
+
+const AppWrapper = styled.main`
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  max-height: 100vh;
+  margin: auto;
+  background: ${(props) => props.theme.main.bg};
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  filter: ${(props) => props.isModalOpen && 'blur(2px)'};
+`;
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppWrapper isModalOpen={isModalOpen}>
+      <GameContextProvider>
+        <Header toggleModal={toggleModal} />
+        <Game />
+      </GameContextProvider>
+      {isModalOpen && <Rules toggleModal={toggleModal}></Rules>}
+    </AppWrapper>
   );
 }
 

@@ -31,25 +31,6 @@ const GuessBoardWrapper = styled.article`
   }
 `;
 
-const BlankRows = () => {
-  return (
-    <>
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-      <BlankRow />
-    </>
-  );
-};
-
 const GuessBoard = () => {
   const { hasGameStarted } = useContext(GlobalContext);
   const { guesses, guess } = useContext(GameContext);
@@ -62,7 +43,9 @@ const GuessBoard = () => {
         {hasGameStarted && guesses.length !== 12 && <PegSlots guess={guess} />}
       </div>
 
-      <BlankRows />
+      {Array.from({ length: 12 }, () => (
+        <BlankRow />
+      ))}
     </GuessBoardWrapper>
   );
 };
